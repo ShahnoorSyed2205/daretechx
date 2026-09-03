@@ -1,0 +1,152 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import FAQSection from "../../components/FAQSection.astro";
+import CTABand from "../../components/CTABand.astro";
+import RelatedServices from "../../components/RelatedServices.astro";
+
+const serviceSchema = {
+	"@context": "https://schema.org",
+	"@type": "Service",
+	serviceType: "Cybersecurity Services",
+	provider: {
+		"@type": "Organization",
+		name: "DareTechX",
+		url: "https://daretechx.com",
+	},
+	url: "https://daretechx.com/services/cybersecurity",
+	areaServed: "US",
+	description:
+		"Security assessments, penetration testing, and IT security consulting for US businesses.",
+};
+
+const offerings = [
+	{
+		title: "Security assessments",
+		description:
+			"Thorough audits that surface the vulnerabilities in your systems and data.",
+	},
+	{
+		title: "Penetration testing",
+		description:
+			"We test your defenses the way an attacker would, then show you exactly what to fix.",
+	},
+	{
+		title: "IT security consulting",
+		description:
+			"Practical guidance on securing your infrastructure, data, and daily operations.",
+	},
+];
+
+const process = [
+	{ title: "Scope", description: "Define what we test and how, around your operations." },
+	{ title: "Test", description: "Probe your defenses the way an attacker would." },
+	{
+		title: "Report",
+		description: "Ranked risks and clear fixes your team can act on.",
+	},
+	{
+		title: "Retest",
+		description: "Confirm the gap is actually closed.",
+	},
+];
+
+const faqs = [
+	{
+		question: "How often should we test?",
+		answer:
+			"At minimum annually, and after any major system change. Regulated industries often need more.",
+	},
+	{
+		question: "Will testing disrupt operations?",
+		answer:
+			"No. We scope tests to avoid impact and schedule around your operations.",
+	},
+	{
+		question: "Do you just find problems or help fix them?",
+		answer: "Both. We hand you ranked findings and can implement the fixes.",
+	},
+];
+---
+
+<Layout
+	title="Cybersecurity Services | Assessments, Penetration Testing, USA"
+	description="Find vulnerabilities before attackers do. DareTechX delivers security assessments, penetration testing, and IT security consulting for US businesses. Security-first."
+	schema={[serviceSchema]}
+>
+	<PageHero
+		eyebrow="Service"
+		title="Cybersecurity Services"
+		subhead="Find the gaps before attackers do. Assessments, penetration testing, and practical hardening from a team that builds security in, not on."
+		primaryLabel="Book a Security Review"
+	/>
+
+	<section class="bg-slate-950 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-2xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">What We Offer</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					Security that holds up under a real attack.
+				</h2>
+			</div>
+
+			<div class="mt-12 grid gap-6 md:grid-cols-3">
+				{
+					offerings.map((item) => (
+						<div class="rounded-2xl border border-white/10 bg-slate-900 p-6">
+							<h3 class="text-lg font-semibold text-white">{item.title}</h3>
+							<p class="mt-2 text-sm leading-relaxed text-slate-400">{item.description}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-900 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">Why It Matters</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					One breach costs more than every audit you will ever run.
+				</h2>
+				<p class="mt-5 text-lg leading-relaxed text-slate-400">
+					Most businesses do not know where they are exposed until it is too late. We
+					find the weak points, rank them by real risk, and give you a clear plan to
+					close them. No jargon dump, just findings your team can act on.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-950 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-2xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">How We Work</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					From exposure to closure.
+				</h2>
+			</div>
+
+			<div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+				{
+					process.map((step, index) => (
+						<div class="rounded-2xl border border-white/10 bg-slate-900 p-6">
+							<p class="text-3xl font-extrabold text-violet-400">
+								{String(index + 1).padStart(2, "0")}
+							</p>
+							<h3 class="mt-3 text-lg font-semibold text-white">{step.title}</h3>
+							<p class="mt-2 text-sm leading-relaxed text-slate-400">{step.description}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<FAQSection faqs={faqs} />
+
+	<CTABand title="Want to know where you are exposed?" primaryLabel="Book a Security Review" />
+
+	<RelatedServices slugs={["cloud-devops", "custom-software-development"]} />
+</Layout>

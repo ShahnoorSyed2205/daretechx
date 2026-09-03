@@ -1,0 +1,202 @@
+---
+import { SITE_NAME, SERVICES, INDUSTRIES } from "../consts";
+
+const pathname = Astro.url.pathname;
+
+const navItems = [
+	{ href: "/", label: "Home" },
+	{ href: "/services", label: "Services", dropdown: SERVICES },
+	{ href: "/services/forward-deployed-engineering", label: "Forward Deployed Engineering", dropdown: undefined },
+	{ href: "/industries", label: "Industries", dropdown: INDUSTRIES },
+	{ href: "/about", label: "About" },
+	{ href: "/contact", label: "Contact" },
+];
+
+const isActive = (href: string) =>
+	href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+---
+
+<header class="sticky top-0 z-50 border-b border-white/10 bg-slate-950/95 backdrop-blur">
+	<div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+		<a href="/" class="flex shrink-0 items-center" aria-label={`${SITE_NAME} home`}>
+			<img
+				src="/logo.png"
+				alt={`${SITE_NAME} logo`}
+				class="h-12 w-auto rounded-lg"
+				width="160"
+				height="48"
+			/>
+		</a>
+
+		<nav class="hidden items-center gap-0.5 lg:flex" aria-label="Main">
+			{
+				navItems.map((item) =>
+					item.dropdown ? (
+						<div class="group relative">
+							<a
+								href={item.href}
+								aria-current={isActive(item.href) ? "page" : undefined}
+								aria-haspopup="true"
+								class:list={[
+									"flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition",
+									isActive(item.href)
+										? "text-violet-300"
+										: "text-slate-300 hover:bg-white/5 hover:text-white",
+								]}
+							>
+								{item.label}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="2"
+									stroke="currentColor"
+									class="size-3.5 transition group-hover:rotate-180"
+									aria-hidden="true"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+								</svg>
+							</a>
+							<div
+								class="invisible absolute left-0 top-full z-50 w-72 pt-2 opacity-0 transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100"
+							>
+								<ul class="rounded-xl border border-white/10 bg-slate-950 p-2 shadow-xl shadow-black/40">
+									<li class="px-3 pb-1 pt-2">
+										<a
+											href={item.href}
+											class="block rounded-md px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-violet-300 transition hover:bg-white/5"
+										>
+											All {item.label}
+										</a>
+									</li>
+									{
+										item.dropdown.map((entry) => (
+											<li>
+												<a
+													href={entry.href}
+													class:list={[
+														"mt-0.5 block rounded-lg px-3 py-2 text-sm transition",
+														isActive(entry.href)
+															? "bg-white/10 text-violet-200"
+															: "text-slate-300 hover:bg-white/5 hover:text-white",
+													]}
+												>
+													{"name" in entry ? entry.name : entry.title}
+												</a>
+											</li>
+										))
+									}
+								</ul>
+							</div>
+						</div>
+					) : (
+						<a
+							href={item.href}
+							aria-current={isActive(item.href) ? "page" : undefined}
+							class:list={[
+								"rounded-md px-3 py-2 text-sm font-medium transition",
+								item.label === "Forward Deployed Engineering"
+									? "font-semibold text-violet-300 hover:bg-white/5 hover:text-violet-200"
+									: isActive(item.href)
+										? "text-violet-300"
+										: "text-slate-300 hover:bg-white/5 hover:text-white",
+							]}
+						>
+							{item.label}
+						</a>
+					)
+				)
+			}
+		</nav>
+
+		<div class="flex items-center gap-2">
+			<a
+				href="/contact"
+				class="hidden shrink-0 rounded-lg bg-violet-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-violet-400 md:inline-block"
+			>
+				Book a Consultation
+			</a>
+			<button
+				type="button"
+				id="menu-toggle"
+				class="inline-flex items-center justify-center rounded-lg border border-white/15 p-2 text-slate-200 transition hover:bg-white/5 lg:hidden"
+				aria-expanded="false"
+				aria-controls="mobile-menu"
+				aria-label="Toggle menu"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="2"
+					stroke="currentColor"
+					class="size-6"
+					aria-hidden="true"
+				>
+					<path id="icon-open" stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+					<path id="icon-close" class="hidden" stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+				</svg>
+			</button>
+		</div>
+	</div>
+
+	<div id="mobile-menu" class="hidden border-t border-white/10 bg-slate-950 lg:hidden">
+		<nav class="mx-auto max-w-7xl space-y-1 px-4 py-4 sm:px-6" aria-label="Mobile">
+			{
+				navItems.map((item) => (
+					<div>
+						<a
+							href={item.href}
+							aria-current={isActive(item.href) ? "page" : undefined}
+							class:list={[
+								"block rounded-lg px-3 py-2.5 text-base font-medium",
+								isActive(item.href) ? "bg-white/10 text-violet-300" : "text-slate-200 hover:bg-white/5",
+							]}
+						>
+							{item.label}
+						</a>
+						{item.dropdown && (
+							<ul class="ml-4 mt-1 space-y-0.5 border-l border-white/10 pl-3">
+								{item.dropdown.map((entry) => (
+									<li>
+										<a
+											href={entry.href}
+											aria-current={isActive(entry.href) ? "page" : undefined}
+											class:list={[
+												"block rounded-md px-3 py-2 text-sm",
+												isActive(entry.href) ? "text-violet-300" : "text-slate-400 hover:text-white",
+											]}
+										>
+											{"name" in entry ? entry.name : entry.title}
+										</a>
+									</li>
+								))}
+							</ul>
+						)}
+					</div>
+				))
+			}
+			<a
+				href="/contact"
+				class="mt-2 block rounded-lg bg-violet-500 px-3 py-2.5 text-center text-base font-semibold text-slate-950 transition hover:bg-violet-400"
+			>
+				Book a Consultation
+			</a>
+		</nav>
+	</div>
+</header>
+
+<script>
+	const toggle = document.getElementById("menu-toggle");
+	const menu = document.getElementById("mobile-menu");
+	const iconOpen = document.getElementById("icon-open");
+	const iconClose = document.getElementById("icon-close");
+
+	toggle?.addEventListener("click", () => {
+		const expanded = toggle.getAttribute("aria-expanded") === "true";
+		toggle.setAttribute("aria-expanded", String(!expanded));
+		menu?.classList.toggle("hidden", expanded);
+		iconOpen?.classList.toggle("hidden", !expanded);
+		iconClose?.classList.toggle("hidden", expanded);
+	});
+</script>

@@ -1,0 +1,156 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import FAQSection from "../../components/FAQSection.astro";
+import CTABand from "../../components/CTABand.astro";
+import RelatedServices from "../../components/RelatedServices.astro";
+
+const serviceSchema = {
+	"@context": "https://schema.org",
+	"@type": "Service",
+	serviceType: "Custom Software Development",
+	provider: {
+		"@type": "Organization",
+		name: "DareTechX",
+		url: "https://daretechx.com",
+	},
+	url: "https://daretechx.com/services/custom-software-development",
+	areaServed: "US",
+	description:
+		"Custom web, mobile, and enterprise software built around your business, from concept to deployment.",
+};
+
+const builds = [
+	{
+		title: "Web applications",
+		description: "Fast, reliable, scalable, working across every device and browser.",
+	},
+	{
+		title: "Mobile apps",
+		description: "iOS and Android, built for real users and real use.",
+	},
+	{
+		title: "Enterprise & custom platforms",
+		description:
+			"CRM, ERP, internal tools, and commerce systems tailored to your workflow.",
+	},
+];
+
+const outcomes = [
+	"Discovery and system design",
+	"Clean, documented, maintainable code",
+	"Scalable architecture",
+	"Security built in",
+	"Deployment and support",
+	"A product that fits how you actually operate",
+];
+
+const faqs = [
+	{
+		question: "Do you work from a fixed spec or help define it?",
+		answer:
+			"Both. If the spec is not clear yet, we help you shape it before we build.",
+	},
+	{
+		question: "Will we own the code?",
+		answer: "Yes. You own everything we build for you, fully documented.",
+	},
+	{
+		question: "Can you take over an existing project?",
+		answer: "Yes. We audit what exists, then stabilize and extend it.",
+	},
+];
+---
+
+<Layout
+	title="Custom Software Development Company | Web, Mobile, Enterprise"
+	description="DareTechX builds custom web, mobile, and enterprise software around your business. Clean, scalable, secure code from a US-based team. From concept to deployment."
+	schema={[serviceSchema]}
+>
+	<PageHero
+		eyebrow="Service"
+		title="Custom Software Development"
+		subhead="Web, mobile, and enterprise applications built around your business, not squeezed into someone else's template. From concept to deployment."
+		primaryLabel="Book a Consultation"
+	/>
+
+	<section class="bg-slate-950 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-2xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">What We Build</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					Software shaped to your business.
+				</h2>
+			</div>
+
+			<div class="mt-12 grid gap-6 md:grid-cols-3">
+				{
+					builds.map((item) => (
+						<div class="rounded-2xl border border-white/10 bg-slate-900 p-6">
+							<h3 class="text-lg font-semibold text-white">{item.title}</h3>
+							<p class="mt-2 text-sm leading-relaxed text-slate-400">{item.description}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-900 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">How We Work</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					Clean code, clear delivery.
+				</h2>
+				<p class="mt-5 text-lg leading-relaxed text-slate-400">
+					We scope the work properly, build in tested increments, and keep you in the
+					loop the whole way. Everything is written to be maintained and extended, so
+					your systems grow with you instead of needing a rebuild in a year.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-950 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+				<div>
+					<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">What You Get</p>
+					<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+						A product that fits how you operate.
+					</h2>
+					<p class="mt-4 text-lg text-slate-300">
+						Owned by you, documented, and built to last.
+					</p>
+				</div>
+				<ul class="space-y-3">
+					{
+						outcomes.map((item) => (
+							<li class="flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-200">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="2"
+									stroke="currentColor"
+									class="mt-0.5 size-5 shrink-0 text-violet-400"
+									aria-hidden="true"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+								</svg>
+								{item}
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<FAQSection faqs={faqs} />
+
+	<CTABand title="Have something to build? Let's scope it." />
+
+	<RelatedServices slugs={["cloud-devops", "ai-automation"]} />
+</Layout>

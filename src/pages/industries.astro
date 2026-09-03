@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CTABand from "../components/CTABand.astro";
+import { INDUSTRIES } from "../consts";
+---
+
+<Layout
+	title="Industries We Serve | Fintech, Healthcare, Government, Retail"
+	description="DareTechX delivers AI and software for financial services, healthcare, government, and retail. Sector depth that gets projects deployed inside real constraints."
+>
+	<section class="bg-slate-950">
+		<div class="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 md:py-28">
+			<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">Industries</p>
+			<h1 class="mt-3 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+				Depth Where It Counts
+			</h1>
+			<p class="mx-auto mt-5 max-w-3xl text-lg text-slate-300">
+				Deployment is easier when your engineers already understand your world.
+			</p>
+		</div>
+	</section>
+
+	<section class="bg-slate-900 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<h2 class="sr-only">Industries we serve</h2>
+			<div class="grid gap-6 sm:grid-cols-2">
+				{
+					INDUSTRIES.map((industry) => (
+						<a
+							href={industry.href}
+							class="group rounded-2xl border border-white/10 bg-slate-950 p-8 shadow-sm transition hover:-translate-y-1 hover:border-violet-500/50 hover:shadow-md"
+						>
+							<h3 class="text-xl font-bold text-white">{industry.name}</h3>
+							<p class="mt-3 text-base leading-relaxed text-slate-400">{industry.blurb}</p>
+							<span class="mt-4 inline-block text-sm font-semibold text-violet-400">
+								Explore {industry.name} →
+							</span>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<CTABand
+		title="Your industry has its own rules. We already speak them."
+		subtitle="Tell us about your environment and we will show you how we would ship inside it."
+	/>
+</Layout>

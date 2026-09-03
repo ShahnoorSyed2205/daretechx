@@ -1,0 +1,242 @@
+---
+---
+
+<div
+	class="neural-net pointer-events-none absolute inset-0 overflow-hidden"
+	aria-hidden="true"
+	data-neural-net
+>
+	<canvas class="absolute inset-0 size-full" data-neural-canvas></canvas>
+	<div
+		class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgb(2_6_23)_75%)]"
+	></div>
+</div>
+
+<script>
+	type GraphNode = {
+		x: number;
+		y: number;
+		vx: number;
+		vy: number;
+		r: number;
+	};
+
+	type Pulse = {
+		from: number;
+		to: number;
+		t: number;
+		speed: number;
+	};
+
+	function mountNeural(root: HTMLElement) {
+		const canvasEl = root.querySelector("[data-neural-canvas]");
+		if (!(canvasEl instanceof HTMLCanvasElement)) return;
+
+		const context = canvasEl.getContext("2d", { alpha: true });
+		if (!context) return;
+
+		const canvas = canvasEl;
+		const ctx = context;
+		const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+		let width = 0;
+		let height = 0;
+		let dpr = 1;
+		let nodes: GraphNode[] = [];
+		let pulses: Pulse[] = [];
+		let raf = 0;
+		let running = false;
+		let lastPulse = 0;
+
+		const linkDist = () => (width < 640 ? 110 : width < 1024 ? 130 : 150);
+
+		function nodeCount() {
+			if (width < 480) return 28;
+			if (width < 768) return 42;
+			if (width < 1200) return 58;
+			return 72;
+		}
+
+		function seed() {
+			const count = nodeCount();
+			nodes = Array.from({ length: count }, () => ({
+				x: Math.random() * width,
+				y: Math.random() * height,
+				vx: (Math.random() - 0.5) * 0.28,
+				vy: (Math.random() - 0.5) * 0.28,
+				r: Math.random() * 1.4 + 1.1,
+			}));
+			pulses = [];
+			lastPulse = 0;
+		}
+
+		function resize() {
+			const rect = root.getBoundingClientRect();
+			width = Math.max(1, Math.floor(rect.width));
+			height = Math.max(1, Math.floor(rect.height));
+			dpr = Math.min(window.devicePixelRatio || 1, 2);
+			canvas.width = Math.floor(width * dpr);
+			canvas.height = Math.floor(height * dpr);
+			canvas.style.width = `${width}px`;
+			canvas.style.height = `${height}px`;
+			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			seed();
+			if (reducedMotion) drawStatic();
+		}
+
+		function neighbors(i: number): number[] {
+			const max = linkDist();
+			const out: { j: number; d: number }[] = [];
+			const a = nodes[i];
+			for (let j = 0; j < nodes.length; j++) {
+				if (j === i) continue;
+				const b = nodes[j];
+				const dx = a.x - b.x;
+				const dy = a.y - b.y;
+				const d = Math.hypot(dx, dy);
+				if (d < max) out.push({ j, d });
+			}
+			out.sort((x, y) => x.d - y.d);
+			return out.slice(0, 3).map((x) => x.j);
+		}
+
+		function drawFrame(now: number) {
+			ctx.clearRect(0, 0, width, height);
+			const max = linkDist();
+
+			for (let i = 0; i < nodes.length; i++) {
+				const a = nodes[i];
+				for (let j = i + 1; j < nodes.length; j++) {
+					const b = nodes[j];
+					const dx = a.x - b.x;
+					const dy = a.y - b.y;
+					const d = Math.hypot(dx, dy);
+					if (d > max) continue;
+					const alpha = (1 - d / max) * 0.22;
+					ctx.beginPath();
+					ctx.moveTo(a.x, a.y);
+					ctx.lineTo(b.x, b.y);
+					ctx.strokeStyle = `rgba(167, 139, 250, ${alpha})`;
+					ctx.lineWidth = 1;
+					ctx.stroke();
+				}
+			}
+
+			if (now - lastPulse > 900 && pulses.length < 6) {
+				const from = Math.floor(Math.random() * nodes.length);
+				const links = neighbors(from);
+				if (links.length) {
+					pulses.push({
+						from,
+						to: links[Math.floor(Math.random() * links.length)],
+						t: 0,
+						speed: 0.008 + Math.random() * 0.01,
+					});
+					lastPulse = now;
+				}
+			}
+
+			pulses = pulses.filter((p) => {
+				p.t += p.speed;
+				if (p.t > 1) return false;
+				const a = nodes[p.from];
+				const b = nodes[p.to];
+				const x = a.x + (b.x - a.x) * p.t;
+				const y = a.y + (b.y - a.y) * p.t;
+				const glow = ctx.createRadialGradient(x, y, 0, x, y, 8);
+				glow.addColorStop(0, "rgba(56, 189, 248, 0.9)");
+				glow.addColorStop(0.4, "rgba(167, 139, 250, 0.45)");
+				glow.addColorStop(1, "rgba(167, 139, 250, 0)");
+				ctx.beginPath();
+				ctx.fillStyle = glow;
+				ctx.arc(x, y, 8, 0, Math.PI * 2);
+				ctx.fill();
+				ctx.beginPath();
+				ctx.fillStyle = "rgba(224, 231, 255, 0.95)";
+				ctx.arc(x, y, 1.6, 0, Math.PI * 2);
+				ctx.fill();
+				return true;
+			});
+
+			for (const n of nodes) {
+				ctx.beginPath();
+				ctx.fillStyle = "rgba(196, 181, 253, 0.85)";
+				ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+				ctx.fill();
+			}
+		}
+
+		function drawStatic() {
+			ctx.clearRect(0, 0, width, height);
+			const max = linkDist();
+			for (let i = 0; i < nodes.length; i++) {
+				const a = nodes[i];
+				for (let j = i + 1; j < nodes.length; j++) {
+					const b = nodes[j];
+					const d = Math.hypot(a.x - b.x, a.y - b.y);
+					if (d > max) continue;
+					ctx.beginPath();
+					ctx.moveTo(a.x, a.y);
+					ctx.lineTo(b.x, b.y);
+					ctx.strokeStyle = `rgba(167, 139, 250, ${(1 - d / max) * 0.18})`;
+					ctx.lineWidth = 1;
+					ctx.stroke();
+				}
+			}
+			for (const n of nodes) {
+				ctx.beginPath();
+				ctx.fillStyle = "rgba(196, 181, 253, 0.7)";
+				ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+				ctx.fill();
+			}
+		}
+
+		function tick(now: number) {
+			if (!running) return;
+			for (const n of nodes) {
+				n.x += n.vx;
+				n.y += n.vy;
+				if (n.x < 0 || n.x > width) n.vx *= -1;
+				if (n.y < 0 || n.y > height) n.vy *= -1;
+				n.x = Math.min(width, Math.max(0, n.x));
+				n.y = Math.min(height, Math.max(0, n.y));
+			}
+			drawFrame(now);
+			raf = requestAnimationFrame(tick);
+		}
+
+		function start() {
+			if (running || reducedMotion) return;
+			running = true;
+			raf = requestAnimationFrame(tick);
+		}
+
+		function stop() {
+			running = false;
+			if (raf) cancelAnimationFrame(raf);
+		}
+
+		resize();
+
+		const ro = new ResizeObserver(() => resize());
+		ro.observe(root);
+
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) start();
+					else stop();
+				}
+			},
+			{ threshold: 0.05 },
+		);
+		io.observe(root);
+
+		document.addEventListener("visibilitychange", () => {
+			if (document.hidden) stop();
+			else if (root.getBoundingClientRect().bottom > 0) start();
+		});
+	}
+
+	document.querySelectorAll<HTMLElement>("[data-neural-net]").forEach(mountNeural);
+</script>

@@ -1,0 +1,108 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import FAQSection from "../../components/FAQSection.astro";
+import CTABand from "../../components/CTABand.astro";
+import RelatedServices from "../../components/RelatedServices.astro";
+
+const serviceSchema = {
+	"@context": "https://schema.org",
+	"@type": "Service",
+	serviceType: "Cloud & DevOps",
+	provider: {
+		"@type": "Organization",
+		name: "DareTechX",
+		url: "https://daretechx.com",
+	},
+	url: "https://daretechx.com/services/cloud-devops",
+	areaServed: "US",
+	description:
+		"Cloud migration, infrastructure, and DevOps automation so your systems scale without downtime.",
+};
+
+const offerings = [
+	{
+		title: "Cloud migration",
+		description:
+			"Move to AWS, Azure, or GCP cleanly, with no lost data and no long outage.",
+	},
+	{
+		title: "DevOps automation",
+		description: "CI/CD pipelines that ship faster with fewer errors.",
+	},
+	{
+		title: "Infrastructure management",
+		description:
+			"Monitored, secured, and cost-controlled so you are not overpaying to run it.",
+	},
+];
+
+const faqs = [
+	{
+		question: "Which cloud is best for us?",
+		answer:
+			"Depends on your stack and goals. We assess, then recommend without vendor bias.",
+	},
+	{
+		question: "Can you cut our cloud bill?",
+		answer: "Often yes. Cost review is part of what we do.",
+	},
+];
+---
+
+<Layout
+	title="Cloud & DevOps Services | Migration, Infrastructure, Automation"
+	description="DareTechX handles cloud migration, infrastructure, and DevOps automation so your systems scale without downtime. AWS, Azure, GCP. US-based delivery."
+	schema={[serviceSchema]}
+>
+	<PageHero
+		eyebrow="Service"
+		title="Cloud & DevOps"
+		subhead="Migrate, scale, and automate your infrastructure without the downtime and without the surprise bills."
+		primaryLabel="Book a Consultation"
+	/>
+
+	<section class="bg-slate-950 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-2xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">What We Do</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					Infrastructure that scales quietly.
+				</h2>
+			</div>
+
+			<div class="mt-12 grid gap-6 md:grid-cols-3">
+				{
+					offerings.map((item) => (
+						<div class="rounded-2xl border border-white/10 bg-slate-900 p-6">
+							<h3 class="text-lg font-semibold text-white">{item.title}</h3>
+							<p class="mt-2 text-sm leading-relaxed text-slate-400">{item.description}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-900 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">Why It Matters</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					Slow, fragile infrastructure is a tax on everything you build.
+				</h2>
+				<p class="mt-5 text-lg leading-relaxed text-slate-400">
+					If deployments are scary and scaling means downtime, your whole team moves
+					slower. We set up infrastructure that ships safely, scales on demand, and does
+					not quietly drain your budget.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<FAQSection faqs={faqs} />
+
+	<CTABand title="Infrastructure holding you back? Let's fix the foundation." />
+
+	<RelatedServices slugs={["cybersecurity", "data-engineering"]} />
+</Layout>

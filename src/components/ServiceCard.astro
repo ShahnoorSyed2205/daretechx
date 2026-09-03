@@ -1,0 +1,39 @@
+---
+import { SERVICE_ICONS, type Service } from "../consts";
+
+interface Props {
+	service: Service;
+}
+
+const { service } = Astro.props;
+---
+
+<a
+	href={service.href}
+	class="group block rounded-2xl border border-white/10 bg-slate-950/80 p-6 shadow-sm shadow-black/20 transition hover:-translate-y-1 hover:border-violet-500/40 hover:shadow-md hover:shadow-violet-950/30"
+>
+	<div
+		class="flex size-11 items-center justify-center rounded-lg bg-white/5 text-violet-400 transition group-hover:bg-violet-500 group-hover:text-slate-950"
+	>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke-width="1.8"
+			stroke="currentColor"
+			class="size-6"
+			aria-hidden="true"
+		>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d={SERVICE_ICONS[service.icon]}
+			/>
+		</svg>
+	</div>
+	<h3 class="mt-5 text-lg font-semibold text-white">{service.title}</h3>
+	<p class="mt-2 text-sm leading-relaxed text-slate-400">{service.description}</p>
+	<span class="mt-4 inline-block text-sm font-semibold text-violet-400 transition group-hover:gap-2">
+		Learn more →
+	</span>
+</a>

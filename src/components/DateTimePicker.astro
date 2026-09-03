@@ -1,0 +1,704 @@
+---
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const inputClass =
+	"mt-1.5 w-full rounded-lg border border-white/15 bg-slate-950 px-3.5 py-2.5 text-sm text-white outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30";
+---
+
+<div class:list={["grid gap-5 sm:grid-cols-2", className]} data-dtp>
+	<div class="relative" data-dtp-date-wrap>
+		<label for="preferred-date-display" class="block text-sm font-medium text-slate-300">
+			Preferred date <span class="font-normal text-slate-500">(optional)</span>
+		</label>
+		<input type="hidden" id="preferred-date" name="preferred_date" data-dtp-date-value value="" />
+		<button
+			type="button"
+			id="preferred-date-display"
+			data-dtp-date-trigger
+			class:list={[inputClass, "flex items-center justify-between gap-2 text-left"]}
+			aria-haspopup="dialog"
+			aria-expanded="false"
+		>
+			<span data-dtp-date-label class="text-slate-500">Select a date</span>
+			<svg
+				class="h-4 w-4 shrink-0 text-slate-400"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				stroke-width="1.8"
+				aria-hidden="true"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+				></path>
+			</svg>
+		</button>
+
+		<div
+			data-dtp-calendar
+			hidden
+			class="absolute left-0 top-full z-50 mt-2 w-[min(100%,20rem)] rounded-xl border border-white/10 bg-slate-950 p-3 shadow-xl shadow-black/40"
+			role="dialog"
+			aria-label="Choose a date"
+		>
+			<div class="mb-3 flex items-center justify-between gap-2">
+				<button
+					type="button"
+					data-dtp-prev
+					class="inline-flex size-8 items-center justify-center rounded-lg text-slate-300 transition hover:bg-white/5 hover:text-white"
+					aria-label="Previous month"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+					</svg>
+				</button>
+				<p data-dtp-month-label class="text-sm font-semibold text-white"></p>
+				<button
+					type="button"
+					data-dtp-next
+					class="inline-flex size-8 items-center justify-center rounded-lg text-slate-300 transition hover:bg-white/5 hover:text-white"
+					aria-label="Next month"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+					</svg>
+				</button>
+			</div>
+			<div class="mb-1 grid grid-cols-7 gap-1 text-center text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+				<span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+			</div>
+			<div data-dtp-grid class="grid grid-cols-7 gap-1"></div>
+			<div class="mt-3 flex items-center justify-between border-t border-white/10 pt-2">
+				<button
+					type="button"
+					data-dtp-clear-date
+					class="rounded-md px-2 py-1 text-xs font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"
+				>
+					Clear
+				</button>
+				<button
+					type="button"
+					data-dtp-today
+					class="rounded-md px-2 py-1 text-xs font-medium text-violet-300 transition hover:bg-white/5"
+				>
+					Today
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="relative" data-dtp-time-wrap>
+		<label id="preferred-time-label" class="block text-sm font-medium text-slate-300">
+			Preferred time <span class="font-normal text-slate-500">(optional)</span>
+		</label>
+		<input type="hidden" id="preferred-time" name="preferred_time" data-dtp-time-value value="" />
+		<input type="hidden" name="timezone" data-dtp-timezone value="" />
+		<button
+			type="button"
+			data-dtp-time-trigger
+			class:list={[inputClass, "flex items-center justify-between gap-2 text-left"]}
+			aria-haspopup="dialog"
+			aria-expanded="false"
+			aria-labelledby="preferred-time-label"
+		>
+			<span data-dtp-time-label class="text-slate-500">Select a time</span>
+			<svg
+				class="h-4 w-4 shrink-0 text-slate-400"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				stroke-width="1.8"
+				aria-hidden="true"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
+				></path>
+			</svg>
+		</button>
+
+		<div
+			data-dtp-clock
+			hidden
+			class="absolute right-0 top-full z-50 mt-2 w-[min(100%,18rem)] rounded-xl border border-white/10 bg-slate-950 p-4 shadow-xl shadow-black/40 sm:left-0 sm:right-auto"
+			role="dialog"
+			aria-label="Choose a time"
+		>
+			<div class="mb-4 flex items-center justify-center gap-2">
+				<button
+					type="button"
+					data-dtp-clock-hour-btn
+					class="rounded-lg px-2 py-1 font-mono text-3xl font-semibold tabular-nums text-violet-400 transition hover:bg-white/5"
+				>
+					--
+				</button>
+				<span class="font-mono text-3xl font-semibold text-slate-500" aria-hidden="true">:</span>
+				<button
+					type="button"
+					data-dtp-clock-minute-btn
+					class="rounded-lg px-2 py-1 font-mono text-3xl font-semibold tabular-nums text-slate-500 transition hover:bg-white/5"
+				>
+					--
+				</button>
+				<div class="ml-1 flex flex-col overflow-hidden rounded-md border border-white/15" role="group" aria-label="AM or PM">
+					<button
+						type="button"
+						data-dtp-ampm="AM"
+						aria-pressed="true"
+						class="px-2.5 py-1 text-xs font-semibold transition bg-violet-500 text-slate-950"
+					>
+						AM
+					</button>
+					<button
+						type="button"
+						data-dtp-ampm="PM"
+						aria-pressed="false"
+						class="border-t border-white/15 px-2.5 py-1 text-xs font-semibold text-slate-400 transition hover:bg-white/5 hover:text-white"
+					>
+						PM
+					</button>
+				</div>
+			</div>
+
+			<div class="relative mx-auto aspect-square w-full max-w-[14rem]" data-dtp-clock-face>
+				<div class="absolute inset-0 rounded-full bg-white/5"></div>
+				<div
+					data-dtp-clock-hand
+					class="pointer-events-none absolute left-1/2 top-1/2 z-10 origin-bottom"
+					style="width:2px;height:38%;margin-left:-1px;margin-top:-38%;background:#8b5cf6;border-radius:9999px;transform:rotate(0deg)"
+				>
+					<span class="absolute left-1/2 top-0 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500"></span>
+				</div>
+				<div class="pointer-events-none absolute left-1/2 top-1/2 z-20 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500"></div>
+				<div data-dtp-clock-numbers class="absolute inset-0"></div>
+			</div>
+
+			<div class="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
+				<button
+					type="button"
+					data-dtp-clear-time
+					class="rounded-md px-2 py-1 text-xs font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"
+				>
+					Clear
+				</button>
+				<button
+					type="button"
+					data-dtp-time-done
+					class="rounded-md bg-violet-500 px-3 py-1.5 text-xs font-semibold text-slate-950 transition hover:bg-violet-400"
+				>
+					Done
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	const MONTHS = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+
+	function pad(n: number) {
+		return String(n).padStart(2, "0");
+	}
+
+	function toIso(d: Date) {
+		return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+	}
+
+	function startOfDay(d: Date) {
+		return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+	}
+
+	function parseIso(iso: string) {
+		const [y, m, day] = iso.split("-").map(Number);
+		return new Date(y, m - 1, day);
+	}
+
+	function formatDisplay(iso: string) {
+		const d = parseIso(iso);
+		return d.toLocaleDateString("en-US", {
+			weekday: "short",
+			month: "short",
+			day: "numeric",
+			year: "numeric",
+		});
+	}
+
+	/** Clock positions: 12 at top, clockwise. value 1–12 for hours; 0,5,10…55 for minutes. */
+	function clockAngle(value: number, step: "hour" | "minute") {
+		if (step === "hour") {
+			const h = value % 12;
+			return h * 30;
+		}
+		return (value % 60) * 6;
+	}
+
+	function valueFromAngle(deg: number, step: "hour" | "minute") {
+		const normalized = ((deg % 360) + 360) % 360;
+		if (step === "hour") {
+			const h = Math.round(normalized / 30) % 12;
+			return h === 0 ? 12 : h;
+		}
+		return (Math.round(normalized / 30) * 5) % 60;
+	}
+
+	function angleFromPointer(face: HTMLElement, clientX: number, clientY: number) {
+		const rect = face.getBoundingClientRect();
+		const cx = rect.left + rect.width / 2;
+		const cy = rect.top + rect.height / 2;
+		const dx = clientX - cx;
+		const dy = clientY - cy;
+		let deg = (Math.atan2(dx, -dy) * 180) / Math.PI;
+		if (deg < 0) deg += 360;
+		return deg;
+	}
+
+	function initPicker(root: HTMLElement) {
+		const dateValue = root.querySelector<HTMLInputElement>("[data-dtp-date-value]")!;
+		const dateLabel = root.querySelector<HTMLElement>("[data-dtp-date-label]")!;
+		const dateTrigger = root.querySelector<HTMLButtonElement>("[data-dtp-date-trigger]")!;
+		const calendar = root.querySelector<HTMLElement>("[data-dtp-calendar]")!;
+		const monthLabel = root.querySelector<HTMLElement>("[data-dtp-month-label]")!;
+		const grid = root.querySelector<HTMLElement>("[data-dtp-grid]")!;
+		const prevBtn = root.querySelector<HTMLButtonElement>("[data-dtp-prev]")!;
+		const nextBtn = root.querySelector<HTMLButtonElement>("[data-dtp-next]")!;
+		const clearDateBtn = root.querySelector<HTMLButtonElement>("[data-dtp-clear-date]")!;
+		const todayBtn = root.querySelector<HTMLButtonElement>("[data-dtp-today]")!;
+
+		const timeValue = root.querySelector<HTMLInputElement>("[data-dtp-time-value]")!;
+		const timezoneInput = root.querySelector<HTMLInputElement>("[data-dtp-timezone]")!;
+		const timeLabel = root.querySelector<HTMLElement>("[data-dtp-time-label]")!;
+		const timeTrigger = root.querySelector<HTMLButtonElement>("[data-dtp-time-trigger]")!;
+		const clock = root.querySelector<HTMLElement>("[data-dtp-clock]")!;
+		const clockFace = root.querySelector<HTMLElement>("[data-dtp-clock-face]")!;
+		const clockNumbers = root.querySelector<HTMLElement>("[data-dtp-clock-numbers]")!;
+		const clockHand = root.querySelector<HTMLElement>("[data-dtp-clock-hand]")!;
+		const hourBtn = root.querySelector<HTMLButtonElement>("[data-dtp-clock-hour-btn]")!;
+		const minuteBtn = root.querySelector<HTMLButtonElement>("[data-dtp-clock-minute-btn]")!;
+		const ampmBtns = root.querySelectorAll<HTMLButtonElement>("[data-dtp-ampm]");
+		const clearTimeBtn = root.querySelector<HTMLButtonElement>("[data-dtp-clear-time]")!;
+		const doneBtn = root.querySelector<HTMLButtonElement>("[data-dtp-time-done]")!;
+
+		function detectTimezone() {
+			try {
+				return Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+			} catch {
+				return "";
+			}
+		}
+
+		function timezoneAbbrev(timeZone: string) {
+			if (!timeZone) return "";
+			try {
+				const parts = new Intl.DateTimeFormat("en-US", {
+					timeZone,
+					timeZoneName: "short",
+				}).formatToParts(new Date());
+				return parts.find((p) => p.type === "timeZoneName")?.value || timeZone;
+			} catch {
+				return timeZone;
+			}
+		}
+
+		timezoneInput.value = detectTimezone();
+
+		const today = startOfDay(new Date());
+		let view = new Date(today.getFullYear(), today.getMonth(), 1);
+		let selectedDate: string | null = null;
+
+		let hour: number | null = null;
+		let minute: number | null = null;
+		let ampm: "AM" | "PM" = "AM";
+		let clockStep: "hour" | "minute" = "hour";
+		let dragging = false;
+
+		function setDateLabel(iso: string | null) {
+			if (!iso) {
+				dateLabel.textContent = "Select a date";
+				dateLabel.classList.add("text-slate-500");
+				dateLabel.classList.remove("text-white");
+				return;
+			}
+			dateLabel.textContent = formatDisplay(iso);
+			dateLabel.classList.remove("text-slate-500");
+			dateLabel.classList.add("text-white");
+		}
+
+		function formatTimeLabel() {
+			if (hour === null || minute === null) return null;
+			const tz = timezoneAbbrev(timezoneInput.value || detectTimezone());
+			return tz ? `${hour}:${pad(minute)} ${ampm} ${tz}` : `${hour}:${pad(minute)} ${ampm}`;
+		}
+
+		function setTimeLabel() {
+			const label = formatTimeLabel();
+			if (!label) {
+				timeLabel.textContent = "Select a time";
+				timeLabel.classList.add("text-slate-500");
+				timeLabel.classList.remove("text-white");
+				return;
+			}
+			timeLabel.textContent = label;
+			timeLabel.classList.remove("text-slate-500");
+			timeLabel.classList.add("text-white");
+		}
+
+		function syncTimeValue() {
+			if (hour === null || minute === null) {
+				timeValue.value = "";
+				return;
+			}
+			let hour24 = hour % 12;
+			if (ampm === "PM") hour24 += 12;
+			timeValue.value = `${pad(hour24)}:${pad(minute)}`;
+		}
+
+		function closeCalendar() {
+			calendar.hidden = true;
+			dateTrigger.setAttribute("aria-expanded", "false");
+		}
+
+		function openCalendar() {
+			closeClock();
+			calendar.hidden = false;
+			dateTrigger.setAttribute("aria-expanded", "true");
+			renderCalendar();
+		}
+
+		function closeClock() {
+			clock.hidden = true;
+			timeTrigger.setAttribute("aria-expanded", "false");
+			dragging = false;
+		}
+
+		function openClock() {
+			closeCalendar();
+			clockStep = hour === null ? "hour" : minute === null ? "minute" : "hour";
+			clock.hidden = false;
+			timeTrigger.setAttribute("aria-expanded", "true");
+			renderClock();
+		}
+
+		function renderCalendar() {
+			monthLabel.textContent = `${MONTHS[view.getMonth()]} ${view.getFullYear()}`;
+			grid.replaceChildren();
+
+			const year = view.getFullYear();
+			const month = view.getMonth();
+			const firstDow = new Date(year, month, 1).getDay();
+			const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+			for (let i = 0; i < firstDow; i++) {
+				const spacer = document.createElement("span");
+				spacer.className = "size-9";
+				spacer.setAttribute("aria-hidden", "true");
+				grid.appendChild(spacer);
+			}
+
+			for (let day = 1; day <= daysInMonth; day++) {
+				const date = new Date(year, month, day);
+				const iso = toIso(date);
+				const isPast = date < today;
+				const isToday = iso === toIso(today);
+				const isSelected = iso === selectedDate;
+
+				const btn = document.createElement("button");
+				btn.type = "button";
+				btn.textContent = String(day);
+				btn.disabled = isPast;
+				btn.className = [
+					"size-9 rounded-lg text-sm font-medium transition",
+					isPast
+						? "cursor-not-allowed text-slate-600"
+						: isSelected
+							? "bg-violet-500 text-slate-950"
+							: isToday
+								? "border border-violet-500/50 text-violet-300 hover:bg-white/5"
+								: "text-slate-200 hover:bg-white/5 hover:text-white",
+				].join(" ");
+				if (!isPast) {
+					btn.addEventListener("click", () => {
+						selectedDate = iso;
+						dateValue.value = iso;
+						setDateLabel(iso);
+						closeCalendar();
+						renderCalendar();
+					});
+				}
+				grid.appendChild(btn);
+			}
+		}
+
+		function updateHeader() {
+			hourBtn.textContent = hour === null ? "--" : String(hour);
+			minuteBtn.textContent = minute === null ? "--" : pad(minute);
+
+			const hourActive = clockStep === "hour";
+			hourBtn.className = [
+				"rounded-lg px-2 py-1 font-mono text-3xl font-semibold tabular-nums transition hover:bg-white/5",
+				hourActive ? "text-violet-400" : "text-slate-500",
+			].join(" ");
+			minuteBtn.className = [
+				"rounded-lg px-2 py-1 font-mono text-3xl font-semibold tabular-nums transition hover:bg-white/5",
+				!hourActive ? "text-violet-400" : "text-slate-500",
+			].join(" ");
+		}
+
+		function setHand(value: number | null) {
+			if (value === null) {
+				clockHand.style.opacity = "0";
+				return;
+			}
+			clockHand.style.opacity = "1";
+			const angle = clockAngle(value, clockStep);
+			clockHand.style.transform = `rotate(${angle}deg)`;
+		}
+
+		function renderClock() {
+			updateHeader();
+			clockNumbers.replaceChildren();
+
+			const values =
+				clockStep === "hour"
+					? [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+					: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+
+			const selected = clockStep === "hour" ? hour : minute;
+
+			values.forEach((val, i) => {
+				const angle = i * 30;
+				const rad = ((angle - 90) * Math.PI) / 180;
+				const r = 38;
+				const x = 50 + r * Math.cos(rad);
+				const y = 50 + r * Math.sin(rad);
+				const isOn = selected === val;
+
+				const btn = document.createElement("button");
+				btn.type = "button";
+				btn.textContent = clockStep === "hour" ? String(val) : pad(val);
+				btn.dataset.value = String(val);
+				btn.className = [
+					"absolute flex size-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-sm font-semibold transition",
+					isOn ? "bg-violet-500 text-slate-950" : "text-slate-200 hover:bg-white/10 hover:text-white",
+				].join(" ");
+				btn.style.left = `${x}%`;
+				btn.style.top = `${y}%`;
+				btn.addEventListener("click", (e) => {
+					e.stopPropagation();
+					pickValue(val);
+				});
+				clockNumbers.appendChild(btn);
+			});
+
+			setHand(selected);
+		}
+
+		function pickValue(val: number) {
+			if (clockStep === "hour") {
+				hour = val;
+				if (minute === null) minute = 0;
+				clockStep = "minute";
+			} else {
+				minute = val;
+			}
+			syncTimeValue();
+			setTimeLabel();
+			renderClock();
+		}
+
+		function pickFromPointer(clientX: number, clientY: number) {
+			const deg = angleFromPointer(clockFace, clientX, clientY);
+			const val = valueFromAngle(deg, clockStep);
+			if (clockStep === "hour") {
+				hour = val;
+				setHand(val);
+				updateHeader();
+			} else {
+				minute = val;
+				setHand(val);
+				updateHeader();
+			}
+		}
+
+		function commitPointer() {
+			if (clockStep === "hour") {
+				if (hour === null) hour = 12;
+				if (minute === null) minute = 0;
+				clockStep = "minute";
+				syncTimeValue();
+				setTimeLabel();
+				renderClock();
+			} else {
+				if (minute === null) minute = 0;
+				syncTimeValue();
+				setTimeLabel();
+				renderClock();
+			}
+		}
+
+		function setAmpm(next: "AM" | "PM") {
+			ampm = next;
+			ampmBtns.forEach((btn) => {
+				const on = btn.dataset.dtpAmpm === next;
+				const isPm = btn.dataset.dtpAmpm === "PM";
+				btn.setAttribute("aria-pressed", on ? "true" : "false");
+				btn.className = [
+					"px-2.5 py-1 text-xs font-semibold transition",
+					isPm ? "border-t border-white/15" : "",
+					on ? "bg-violet-500 text-slate-950" : "text-slate-400 hover:bg-white/5 hover:text-white",
+				]
+					.filter(Boolean)
+					.join(" ");
+			});
+			syncTimeValue();
+			setTimeLabel();
+		}
+
+		dateTrigger.addEventListener("click", () => {
+			if (calendar.hidden) openCalendar();
+			else closeCalendar();
+		});
+		prevBtn.addEventListener("click", () => {
+			view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
+			renderCalendar();
+		});
+		nextBtn.addEventListener("click", () => {
+			view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
+			renderCalendar();
+		});
+		clearDateBtn.addEventListener("click", () => {
+			selectedDate = null;
+			dateValue.value = "";
+			setDateLabel(null);
+			renderCalendar();
+			closeCalendar();
+		});
+		todayBtn.addEventListener("click", () => {
+			selectedDate = toIso(today);
+			dateValue.value = selectedDate;
+			view = new Date(today.getFullYear(), today.getMonth(), 1);
+			setDateLabel(selectedDate);
+			renderCalendar();
+			closeCalendar();
+		});
+
+		timeTrigger.addEventListener("click", () => {
+			if (clock.hidden) openClock();
+			else closeClock();
+		});
+		hourBtn.addEventListener("click", () => {
+			clockStep = "hour";
+			renderClock();
+		});
+		minuteBtn.addEventListener("click", () => {
+			if (hour === null) hour = 12;
+			clockStep = "minute";
+			renderClock();
+		});
+		ampmBtns.forEach((btn) => {
+			btn.addEventListener("click", () => setAmpm(btn.dataset.dtpAmpm as "AM" | "PM"));
+		});
+		clearTimeBtn.addEventListener("click", () => {
+			hour = null;
+			minute = null;
+			clockStep = "hour";
+			timeValue.value = "";
+			setTimeLabel();
+			renderClock();
+		});
+		doneBtn.addEventListener("click", () => {
+			if (hour !== null && minute === null) minute = 0;
+			syncTimeValue();
+			setTimeLabel();
+			closeClock();
+		});
+
+		const onMove = (clientX: number, clientY: number) => {
+			if (!dragging) return;
+			pickFromPointer(clientX, clientY);
+		};
+		const onUp = () => {
+			if (!dragging) return;
+			dragging = false;
+			commitPointer();
+		};
+
+		clockFace.addEventListener("pointerdown", (e) => {
+			if ((e.target as HTMLElement).closest("button")) return;
+			dragging = true;
+			clockFace.setPointerCapture(e.pointerId);
+			pickFromPointer(e.clientX, e.clientY);
+		});
+		clockFace.addEventListener("pointermove", (e) => onMove(e.clientX, e.clientY));
+		clockFace.addEventListener("pointerup", onUp);
+		clockFace.addEventListener("pointercancel", onUp);
+
+		document.addEventListener("click", (e) => {
+			const t = e.target as Node;
+			if (!calendar.hidden && !root.querySelector("[data-dtp-date-wrap]")!.contains(t)) closeCalendar();
+			if (!clock.hidden && !root.querySelector("[data-dtp-time-wrap]")!.contains(t)) closeClock();
+		});
+		document.addEventListener("keydown", (e) => {
+			if (e.key !== "Escape") return;
+			if (!calendar.hidden) {
+				closeCalendar();
+				dateTrigger.focus();
+			} else if (!clock.hidden) {
+				closeClock();
+				timeTrigger.focus();
+			}
+		});
+
+		function resetPicker() {
+			selectedDate = null;
+			dateValue.value = "";
+			setDateLabel(null);
+			view = new Date(today.getFullYear(), today.getMonth(), 1);
+			closeCalendar();
+			renderCalendar();
+
+			hour = null;
+			minute = null;
+			clockStep = "hour";
+			timeValue.value = "";
+			setAmpm("AM");
+			setTimeLabel();
+			closeClock();
+			renderClock();
+
+			timezoneInput.value = detectTimezone();
+		}
+
+		const form = root.closest("form");
+		if (form) {
+			form.addEventListener("reset", () => {
+				queueMicrotask(() => resetPicker());
+			});
+		}
+
+		renderCalendar();
+	}
+
+	document.querySelectorAll<HTMLElement>("[data-dtp]").forEach(initPicker);
+</script>

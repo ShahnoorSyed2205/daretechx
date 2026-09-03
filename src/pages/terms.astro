@@ -1,0 +1,86 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { SITE_NAME, US_ADDRESS, EMAIL } from "../consts";
+
+const updated = "Effective Date: January 1, 2026";
+---
+
+<Layout title="Terms of Service" description={`Terms of service for ${SITE_NAME}.`}>
+	<section class="bg-slate-950">
+		<div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 md:py-20">
+			<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">Legal</p>
+			<h1 class="mt-3 text-4xl font-extrabold tracking-tight text-white">Terms of Service</h1>
+			<p class="mt-3 text-sm text-slate-400">{updated}</p>
+		</div>
+	</section>
+
+	<section class="bg-slate-950 py-16 md:py-20">
+		<div class="mx-auto max-w-3xl space-y-8 px-4 text-slate-400 sm:px-6">
+			<div>
+				<h2 class="text-xl font-semibold text-white">1. Acceptance of Terms</h2>
+				<p class="mt-3 leading-relaxed">
+					By accessing or using the {SITE_NAME} website, you agree to be bound by these
+					Terms of Service. If you do not agree with any part of these terms, please do not
+					use our website.
+				</p>
+			</div>
+
+			<div>
+				<h2 class="text-xl font-semibold text-white">2. Use of the Website</h2>
+				<p class="mt-3 leading-relaxed">
+					This website is provided for informational purposes. You agree not to use this
+					website in any way that is unlawful, harmful, or that could damage, disable, or
+					impair the website or interfere with any other party's use of it.
+				</p>
+			</div>
+
+			<div>
+				<h2 class="text-xl font-semibold text-white">3. Intellectual Property</h2>
+				<p class="mt-3 leading-relaxed">
+					All content on this website, including text, graphics, logos, and code, is the
+					property of {SITE_NAME} and is protected by applicable intellectual property
+					laws. You may not reproduce, distribute, or modify any content without our prior
+					written consent.
+				</p>
+			</div>
+
+			<div>
+				<h2 class="text-xl font-semibold text-white">4. Disclaimer of Warranties</h2>
+				<p class="mt-3 leading-relaxed">
+					This website and its content are provided "as is" without warranties of any kind,
+					whether express or implied. We do not warrant that the website will be
+					uninterrupted or error-free.
+				</p>
+			</div>
+
+			<div>
+				<h2 class="text-xl font-semibold text-white">5. Limitation of Liability</h2>
+				<p class="mt-3 leading-relaxed">
+					To the fullest extent permitted by law, {SITE_NAME} shall not be liable for any
+					indirect, incidental, special, or consequential damages arising out of or in
+					connection with your use of this website.
+				</p>
+			</div>
+
+			<div>
+				<h2 class="text-xl font-semibold text-white">6. Changes to These Terms</h2>
+				<p class="mt-3 leading-relaxed">
+					We may update these Terms of Service from time to time. Any changes will be
+					posted on this page with an updated effective date.
+				</p>
+			</div>
+
+			<div>
+				<h2 class="text-xl font-semibold text-white">7. Contact Us</h2>
+				<p class="mt-3 leading-relaxed">
+					If you have any questions about these Terms of Service, please contact us at:
+				</p>
+				<p class="mt-3">
+					{SITE_NAME}<br />
+					{US_ADDRESS.line}<br />
+					Email: <a href={`mailto:${EMAIL}`} class="text-violet-400 hover:underline">{EMAIL}</a>
+				</p>
+			</div>
+		</div>
+	</section>
+</Layout>

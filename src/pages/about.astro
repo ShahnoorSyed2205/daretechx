@@ -1,0 +1,110 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import CTABand from "../components/CTABand.astro";
+import { PHONE_DISPLAY, PHONE_TEL, US_ADDRESS } from "../consts";
+
+const values = [
+	{ title: "Delivery over billing", description: "We are measured by what ships, not by the hours we charge." },
+	{ title: "Security by default", description: "Security is engineered in from the first line of code." },
+	{ title: "Embedded, not remote-and-gone", description: "You work directly with the engineers doing the build." },
+	{ title: "Measurable outcomes", description: "Delivery is tied to your metrics, not to a timesheet." },
+];
+---
+
+<Layout
+	title="About DareTechX | Global Engineering, US Delivery"
+	description="DareTechX is a global software and AI engineering firm delivering to US clients from our Maryland office. Meet the team that builds, deploys, and secures."
+>
+	<PageHero
+		eyebrow="About Us"
+		title="A global engineering firm, delivering on the ground in the US."
+	/>
+
+	<section class="bg-slate-950 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">Who We Are</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					Local accountability, global depth.
+				</h2>
+				<p class="mt-5 text-lg leading-relaxed text-slate-400">
+					DareTechX builds, deploys, and secures the software and AI that businesses run
+					on. Our US office in the DC metro gives American clients a local point of
+					contact, backed by a full global engineering team. You get local accountability
+					with the depth of a worldwide bench.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-900 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">How We Work</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					Own the problem end to end.
+				</h2>
+				<p class="mt-5 text-lg leading-relaxed text-slate-400">
+					We do not hand off and disappear. Our engineers embed with your team, own the
+					problem end to end, and leave you with working systems and full documentation.
+					Security is engineered in from the first line of code, and delivery is tied to
+					outcomes you can measure.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-950 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-2xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">Where We Are</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					One base, global delivery.
+				</h2>
+			</div>
+
+			<div class="mt-10 grid gap-6 md:grid-cols-2">
+				<div class="rounded-2xl border border-white/10 bg-slate-900 p-8">
+					<h3 class="text-lg font-semibold text-white">US Office</h3>
+					<p class="mt-3 text-slate-400">
+						{US_ADDRESS.line}
+					</p>
+					<p class="mt-3 text-sm text-slate-400">
+						Serving clients across the country from the DC metro.
+					</p>
+					<a
+						href={`tel:${PHONE_TEL}`}
+						class="mt-5 inline-block rounded-lg bg-violet-500 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-violet-400"
+					>
+						Call {PHONE_DISPLAY}
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-900 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-2xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">Our Values</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					What we stand for
+				</h2>
+			</div>
+
+			<div class="mt-12 grid gap-6 sm:grid-cols-2">
+				{
+					values.map((value) => (
+						<div class="rounded-2xl border border-white/10 bg-slate-950 p-6 shadow-sm">
+							<h3 class="text-lg font-semibold text-white">{value.title}</h3>
+							<p class="mt-2 text-sm leading-relaxed text-slate-400">{value.description}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<CTABand title="Want to work with us? Let's talk." />
+</Layout>

@@ -1,0 +1,101 @@
+---
+import NeuralNetBackground from "./NeuralNetBackground.astro";
+import DeployConsole from "./DeployConsole.astro";
+
+interface Cta {
+	href: string;
+	label: string;
+}
+
+interface Props {
+	id?: string;
+	badge: string;
+	title: string;
+	highlight: string;
+	description: string;
+	primaryCta: Cta;
+	secondaryCta: Cta;
+	keywords: string[];
+}
+
+const { id, badge, title, highlight, description, primaryCta, secondaryCta, keywords } = Astro.props;
+---
+
+<section id={id} class="relative overflow-hidden bg-slate-950">
+	<NeuralNetBackground />
+	<div
+		aria-hidden="true"
+		class="pointer-events-none absolute -left-32 -top-32 size-[26rem] rounded-full bg-sky-500/10 blur-3xl"
+	>
+	</div>
+	<div
+		aria-hidden="true"
+		class="pointer-events-none absolute -bottom-40 -right-24 size-[30rem] rounded-full bg-violet-600/15 blur-3xl"
+	>
+	</div>
+
+	<div
+		class="relative z-10 mx-auto grid max-w-7xl items-center gap-14 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-2 lg:gap-10"
+	>
+		<div class="max-w-2xl">
+			<p
+				class="inline-flex items-center gap-2.5 rounded-full border border-sky-400/30 bg-sky-400/5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-300"
+			>
+				<span class="size-1.5 rounded-full bg-sky-400 shadow-[0_0_10px_2px_rgba(56,189,248,0.8)]"></span>
+				{badge}
+			</p>
+			<h1 class="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl xl:text-6xl">
+				{title}
+				<span
+					class="mt-1 block bg-gradient-to-r from-sky-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent"
+				>
+					{highlight}
+				</span>
+			</h1>
+			<p class="mt-6 text-lg leading-relaxed text-slate-300">
+				{description}
+			</p>
+			<div class="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
+				<a
+					href={primaryCta.href}
+					class="group inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-400 via-violet-500 to-purple-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-violet-500/30 transition hover:brightness-110"
+				>
+					{primaryCta.label}
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="2"
+						stroke="currentColor"
+						class="size-4 transition-transform group-hover:translate-x-0.5"
+						aria-hidden="true"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+					</svg>
+				</a>
+				<a
+					href={secondaryCta.href}
+					class="inline-flex items-center justify-center rounded-lg border border-white/20 bg-white/[0.03] px-6 py-3 text-base font-semibold text-white transition hover:border-white/40 hover:bg-white/10"
+				>
+					{secondaryCta.label}
+				</a>
+			</div>
+			<p
+				class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-400"
+			>
+				{
+					keywords.map((keyword, i) => (
+						<span class="flex items-center gap-3">
+							{i > 0 && (
+								<span class="size-1 rounded-full bg-sky-400 shadow-[0_0_6px_1px_rgba(56,189,248,0.8)]" />
+							)}
+							{keyword}
+						</span>
+					))
+				}
+			</p>
+		</div>
+
+		<DeployConsole class="mx-auto w-full max-w-md lg:max-w-lg" />
+	</div>
+</section>

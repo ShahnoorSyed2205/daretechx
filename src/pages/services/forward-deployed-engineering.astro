@@ -1,0 +1,215 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageHero from "../../components/PageHero.astro";
+import FAQSection from "../../components/FAQSection.astro";
+import CTABand from "../../components/CTABand.astro";
+import RelatedServices from "../../components/RelatedServices.astro";
+
+const serviceSchema = {
+	"@context": "https://schema.org",
+	"@type": "Service",
+	serviceType: "Forward Deployed AI Engineering",
+	provider: {
+		"@type": "Organization",
+		name: "DareTechX",
+		url: "https://daretechx.com",
+	},
+	url: "https://daretechx.com/services/forward-deployed-engineering",
+	areaServed: "US",
+	description:
+		"Get AI into production. Our forward deployed engineers embed with your team to build and ship working AI inside your systems.",
+};
+
+const steps = [
+	{
+		title: "Embed & diagnose.",
+		description:
+			"We sit with your team, map your systems, data, and constraints, and find where AI can actually move a number.",
+	},
+	{
+		title: "Build in your environment.",
+		description:
+			"Production code inside your stack, not a detached prototype. Integrations, data pipelines, guardrails, evaluations.",
+	},
+	{
+		title: "Deploy & prove.",
+		description:
+			"We ship to production, measure against your metrics, and tune until it holds under real load.",
+	},
+	{
+		title: "Hand over & support.",
+		description:
+			"Your team owns a working system with documentation, not a black box.",
+	},
+];
+
+const deliverables = [
+	"AI agents and copilots wired into live workflows",
+	"LLM and RAG systems grounded in your own data",
+	"Integration into legacy infrastructure and existing tools",
+	"Evaluation suites so the AI behaves under pressure",
+	"Compliance-aware deployment for regulated data",
+	"Full documentation and team handover",
+];
+
+const faqs = [
+	{
+		question: "How is this different from hiring a consultant?",
+		answer:
+			"A consultant advises. We build and ship inside your systems and own the outcome to production.",
+	},
+	{
+		question: "Do you work on-site?",
+		answer:
+			"We work embedded, on-site or securely remote, depending on your data and compliance needs.",
+	},
+	{
+		question: "What if our data is a mess?",
+		answer:
+			"That is the normal starting point. Cleaning and wiring messy data into working AI is the core of the job.",
+	},
+	{
+		question: "How fast can we see something live?",
+		answer:
+			"First working deployment is typically measured in weeks, not quarters.",
+	},
+];
+---
+
+<Layout
+	title="Forward Deployed AI Engineering Services | DareTechX USA"
+	description="Get AI into production. Our forward deployed engineers embed with your team to build and ship working AI inside your systems. Enterprise delivery, mid-market pricing."
+	schema={[serviceSchema]}
+>
+	<PageHero
+		eyebrow="Flagship Service"
+		title="Forward Deployed AI Engineering"
+		subhead="We embed engineers inside your business to build, integrate, and ship AI that works in your real environment. From pilot to production, we own the outcome."
+		primaryLabel="Book a Consultation"
+	/>
+
+	<section class="bg-slate-950 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">What It Is</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					What forward deployed engineering means.
+				</h2>
+				<p class="mt-5 text-lg leading-relaxed text-slate-400">
+					A forward deployed engineer does not hand you a report and leave. They sit
+					inside your team, learn your systems, your data, and your rules, and write
+					production code that makes AI work where you actually operate. It is part
+					software engineering, part integration, part problem ownership. The role exists
+					because capable models still fail inside messy real-world systems, and someone
+					has to close that gap end to end.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-900 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">Why Now</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					The deployment gap is the whole game.
+				</h2>
+				<p class="mt-5 text-lg leading-relaxed text-slate-400">
+					Enterprises have spent billions on AI pilots and most produced no measurable
+					return. Not because the AI was weak, but because it never got wired into the
+					business properly. Demand for engineers who can close that gap has exploded
+					across the US, led by fintech, government, and other regulated industries where
+					integration and compliance are hardest. We built this service to bring that
+					capability to companies that need results, not experiments.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-950 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-2xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">How We Work</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					From messy problem to working system.
+				</h2>
+			</div>
+
+			<div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+				{
+					steps.map((step, index) => (
+						<div class="rounded-2xl border border-white/10 bg-slate-900 p-6">
+							<p class="text-3xl font-extrabold text-violet-400">
+								{String(index + 1).padStart(2, "0")}
+							</p>
+							<h3 class="mt-3 text-lg font-semibold text-white">{step.title}</h3>
+							<p class="mt-2 text-sm leading-relaxed text-slate-400">{step.description}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-900 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+				<div>
+					<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">Deliverables</p>
+					<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+						What you get.
+					</h2>
+					<p class="mt-4 text-lg text-slate-300">
+						A working system in your stack — not a report, not a demo.
+					</p>
+				</div>
+				<ul class="space-y-3">
+					{
+						deliverables.map((item) => (
+							<li class="flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-200">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="2"
+									stroke="currentColor"
+									class="mt-0.5 size-5 shrink-0 text-violet-400"
+									aria-hidden="true"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+								</svg>
+								{item}
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-slate-950 py-20 md:py-24">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<div class="max-w-3xl">
+				<p class="text-sm font-semibold uppercase tracking-widest text-violet-400">Who It Is For</p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+					Built for teams that need AI in production, not in a slide deck.
+				</h2>
+				<p class="mt-5 text-lg leading-relaxed text-slate-400">
+					Mid-market and enterprise teams with a real AI use case and a system that will
+					not cooperate. Financial services, healthcare, government contractors,
+					logistics, and any business sitting on data it cannot yet use.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<FAQSection faqs={faqs} />
+
+	<CTABand
+		title="Ready to get AI past the pilot stage?"
+		primaryLabel="Book a Consultation"
+		showPhone={true}
+	/>
+
+	<RelatedServices slugs={["ai-automation", "data-engineering"]} />
+</Layout>
